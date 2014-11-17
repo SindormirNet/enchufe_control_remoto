@@ -2,7 +2,11 @@
 void receive_data_work() {
 
   static unsigned long dato_in = 0;
+<<<<<<< HEAD
   static byte dato_in_idx = 0; 
+=======
+  static byte dato_in_idx = 0;
+>>>>>>> 46600c22e25d2e079e2e98a04fe654fa0f5021d4
 
   static unsigned long t_ini_pulso;
   static unsigned long t_fin_pulso;

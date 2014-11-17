@@ -2,9 +2,18 @@
            xxxxxxxxxxxxxx DDDDDD AAAAA
 1 ON    -> 00000100010101 010011 00110
 1 OFF   -> 00000100010101 010011 11000
+<<<<<<< HEAD
 
 2 ON    -> 00000100010101 011100 00110
 2 OFF   -> 00000100010101 011100 11000
+=======
+
+2 ON    -> 00000100010101 011100 00110
+2 OFF   -> 00000100010101 011100 11000
+
+3 ON    -> 00000100010101 110000 00110
+3 OFF   -> 00000100010101 110000 11000
+>>>>>>> 46600c22e25d2e079e2e98a04fe654fa0f5021d4
 
 3 ON    -> 00000100010101 110000 00110
 3 OFF   -> 00000100010101 110000 11000
@@ -25,12 +34,21 @@ http://www.alibaba.com/product-detail/Remote-control-socket_767648913.html
 #define RXDEBUG
 #undef RXDEBUG
 
+<<<<<<< HEAD
 #define RF_RX 5
 #define RF_TX 12
 #define LED_1 A0
 #define LED_2 A2
 #define LED_3 A5
 #define DEBUG A3
+=======
+#define RF_RX 2
+#define RF_TX 3
+#define LED_1 10
+#define LED_2 11
+#define LED_3 12
+#define DEBUG 13
+>>>>>>> 46600c22e25d2e079e2e98a04fe654fa0f5021d4
 
 // Modificarlo para que haga unso de las interrupciones externas con conteo de tiempo
 // Hacer varias capturas (10* intervalo de tiempo) y promediar, para eliminar el ruido
@@ -71,6 +89,7 @@ void setup() {
 
 void loop() {
   receive_data_funciona();
+<<<<<<< HEAD
   
   if (Serial.available()){
     byte dato=Serial.read();
@@ -103,6 +122,18 @@ void loop() {
       digitalWrite(LED_3, LOW);      
       transmit_data(3, 0);
       Serial.println("3 Apagado");
+=======
+  receive_data_work();
+  
+  if (Serial.available()){
+    if (Serial.read() == 'A') {
+      transmit_data(3, 1);
+      Serial.println("Encendido");
+    }
+    else {
+      transmit_data(3, 0);
+      Serial.println("Apagado");
+>>>>>>> 46600c22e25d2e079e2e98a04fe654fa0f5021d4
     }
   } 
 }
