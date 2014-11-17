@@ -1,56 +1,108 @@
 /*
-                                   xxxxxxxxxxxxxxxDD DDDDAAAA xxxxxxxx
-1 ON    -> [00] {25} 04 55 33 00 : 00000100 01010101 00110011 00000000
-1 OFF   -> [00] {25} 04 55 3c 00 : 00000100 01010101 00111100 00000000
+           xxxxxxxxxxxxxx DDDDDD AAAAA
+1 ON    -> 00000100010101 010011 00110
+1 OFF   -> 00000100010101 010011 11000
 
-2 ON    -> [00] {25} 04 55 c3 00 : 00000100 01010101 11000011 00000000
-2 OFF   -> [00] {25} 04 55 cc 00 : 00000100 01010101 11001100 00000000
+2 ON    -> 00000100010101 011100 00110
+2 OFF   -> 00000100010101 011100 11000
 
-3 ON    -> [00] {25} 04 57 03 00 : 00000100 01010111 00000011 00000000
-3 OFF   -> [00] {25} 04 57 0c 00 : 00000100 01010111 00001100 00000000
-
-
+3 ON    -> 00000100010101 110000 00110
+3 OFF   -> 00000100010101 110000 11000
+ 
 Destinos:
     010011 -> 1
     011100 -> 2
     110000 -> 3
 
-xxxxxxxx -> Cabecera o final
+xxxxxxxx -> Cabecera
 AAAA -> Acción: 0011 -> ON; 1100 -> OFF
 DDDDDDD -> Dirección
 
+http://www.alibaba.com/product-detail/Remote-control-socket_767648913.html
+
 */
 
-#define RF_RX 2
-#define LED_DEBUG 13
-#define RF_TX 3
+#define RXDEBUG
+#undef RXDEBUG
 
-//Modificarlo para que haga unso de las interrupciones externaws con conteo de tiempo
-// ramiro sugiere hacer varias capturas (10* intervalo de tiempo) y promediar, para eliminar el ruido
+#define RF_RX 5
+#define RF_TX 12
+#define LED_1 A0
+#define LED_2 A2
+#define LED_3 A5
+#define DEBUG A3
 
-//Pulso corto es de 200uS
-//Pulso largo es de 590uS
-#define PULSE_0 108
-#define PULSE_1 470
-#define MARGEN 100
+// Modificarlo para que haga unso de las interrupciones externas con conteo de tiempo
+// Hacer varias capturas (10* intervalo de tiempo) y promediar, para eliminar el ruido
+// Convertir a bits las capturas para ahorrar RAM
+// Crear una estructura con la informacion de la trama
 
-const byte header[14] = {0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1};
+//Desde un pulso al siguiente hay 760us
+
+typedef struct {             
+  int header;                
+  byte destination;
+  byte action;
+} trama_RF;
+
+trama_RF rx;
+
+#define PULSE_0 170   //Valores obtenidos del uC
+#define PULSE_1 530
+#define MARGEN_0 70
+#define MARGEN_1 70
+                    // 13,12,11,10,9, 8, 7, 6, 5, 4, 3, 2 ,1, 0
+const byte header[] = {0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1};
 byte dest[6];
 byte action[4];
 
-byte dato_in[256];
-byte dato_in_ptr = 0;
+void setup() {  
+  rx.header = 0x0115;
 
-void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial.println("V0.36");
   pinMode(RF_RX, INPUT);
-  pinMode(LED_DEBUG, OUTPUT);
   pinMode(RF_TX, OUTPUT);
-
+  pinMode(LED_1, OUTPUT);
+  pinMode(LED_2, OUTPUT);
+  pinMode(LED_3, OUTPUT);
+  pinMode(DEBUG, OUTPUT);
 }
 
 void loop() {
-  receive_data();
+  receive_data_funciona();
+  
+  if (Serial.available()){
+    byte dato=Serial.read();
+    if ( dato == 'A') {
+      digitalWrite(LED_1, HIGH);
+      transmit_data(1, 1);
+      Serial.println("1 Encendido");
+    }
+    else if ( dato == 'a') {
+      digitalWrite(LED_1, LOW);      
+      transmit_data(1, 0);
+      Serial.println("1 Apagado");
+    }
+    if ( dato == 'B') {
+      digitalWrite(LED_2, HIGH);
+      transmit_data(2, 1);
+      Serial.println("2 Encendido");
+    }
+    else if ( dato == 'b') {
+      digitalWrite(LED_2, LOW);      
+      transmit_data(2, 0);
+      Serial.println("2 Apagado");
+    }    
+    if ( dato == 'C') {
+      digitalWrite(LED_3, HIGH);
+      transmit_data(3, 1);
+      Serial.println("3 Encendido");
+    }
+    else if ( dato == 'c') {
+      digitalWrite(LED_3, LOW);      
+      transmit_data(3, 0);
+      Serial.println("3 Apagado");
+    }
+  } 
 }
-
-
