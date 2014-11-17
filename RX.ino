@@ -1,3 +1,28 @@
+/*
+           xxxxxxxxxxxxxx DDDDDD AAAAA
+1 ON    -> 00000100010101 010011 00110
+1 OFF   -> 00000100010101 010011 11000
+
+2 ON    -> 00000100010101 011100 00110
+2 OFF   -> 00000100010101 011100 11000
+
+3 ON    -> 00000100010101 110000 00110
+3 OFF   -> 00000100010101 110000 11000
+ 
+Destinos:
+    010011 -> 1
+    011100 -> 2
+    110000 -> 3
+
+xxxxxxxx -> Cabecera
+AAAA -> Acción: 0011 -> ON; 1100 -> OFF
+DDDDDDD -> Dirección
+
+http://www.alibaba.com/product-detail/Remote-control-socket_767648913.html
+
+*/
+
+
 void receive_data_funciona() {
 
   static byte dato_in[26];
