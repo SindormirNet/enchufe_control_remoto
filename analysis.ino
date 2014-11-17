@@ -1,11 +1,7 @@
 
 void analyze_data(byte *dest, byte *action ) {
   byte pin=0;
-<<<<<<< HEAD
   byte estado=2; 
-=======
-  byte estado=2;
->>>>>>> 46600c22e25d2e079e2e98a04fe654fa0f5021d4
   
   if      (dest[0] == 0 && dest[1] == 1 && dest[2] == 0 && dest[3] == 0 && dest[4] == 1 && dest[5] == 1 ) pin=LED_1;
   else if (dest[0] == 0 && dest[1] == 1 && dest[2] == 1 && dest[3] == 1 && dest[4] == 0 && dest[5] == 0 ) pin=LED_2;

@@ -32,7 +32,6 @@ void receive_data_funciona() {
     else {
       dato_in_idx = 0;
       return;
-<<<<<<< HEAD
     } 
 
     //Debug. Muestra si hemos recibido un uno o un cero
@@ -54,34 +53,8 @@ void receive_data_funciona() {
     digitalWrite(DEBUG, HIGH);
     delayMicroseconds(10);
     digitalWrite(DEBUG, LOW);*/
-=======
-    }
->>>>>>> 46600c22e25d2e079e2e98a04fe654fa0f5021d4
-
-    //Debug. Muestra si hemos recibido un uno o un cero
-    /*if (dato_in[dato_in_idx]) {
-      digitalWrite(DEBUG, HIGH);
-      delayMicroseconds(100);
-      digitalWrite(DEBUG, LOW);
-    }
-    else {
-      digitalWrite(DEBUG, HIGH);
-      delayMicroseconds(25);
-      digitalWrite(DEBUG, LOW);
-    }*/
-
-<<<<<<< HEAD
-=======
-
-    dato_in_idx++;
-
-    /*delayMicroseconds(700 - t_pulse - (micros() - t_fin_pulso)); // Muestra cuando deberia comenzar el siguiente pulso
-    digitalWrite(DEBUG, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(DEBUG, LOW);*/
 
 
->>>>>>> 46600c22e25d2e079e2e98a04fe654fa0f5021d4
     if (dato_in_idx < 15) { //Estamos en la cabecera
       if (dato_in[dato_in_idx - 1] != ((rx.header >> (14 - (dato_in_idx))) & 0x01)) {
         delay(5); // NPI de porque hay que poner este delay aqui
