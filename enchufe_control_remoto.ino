@@ -38,7 +38,7 @@ byte dest[6];
 byte action[4];
 
 byte mac[] = { 0xCA, 0xFE, 0xCA, 0xFE, 0x00, 0x01 };
-IPAddress ip(10, 0, 0, 1);
+IPAddress ip(192, 168, 1, 2);
 
 EthernetServer server(80);
 

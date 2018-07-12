@@ -28,9 +28,16 @@ byte process_server() {
           client.println();
           client.println("<!DOCTYPE HTML>");
           client.println("<html>");
-          client.println("<meta http-equiv=\"refresh\" content=\"5\">");
-          client.print("Parametro recibido: ");
+          //client.println("<meta http-equiv=\"refresh\" content=\"5\">");
+          client.print("Parametro ");
           client.println(param);
+          client.println(" recibido correctamente<p>");
+          client.print("Estado actuadores ");
+          client.print(digitalRead(LED_1));
+          client.print(" ");
+          client.print(digitalRead(LED_2));
+          client.print(" ");
+          client.println(digitalRead(LED_3));
           client.println("</html>");
           break;
         }
